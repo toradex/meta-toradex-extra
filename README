@@ -1,0 +1,12 @@
+This is a demo layer how to extend the Toradex BSP layer to create an
+altered image. This demo uses its own layer since several additional
+software packages and an altered kernel is required.
+
+This layer requires a working Toradex BSP setup (with meta-toradex),
+see
+http://developer.toradex.com/software-resources/arm-family/linux/board-support-package/openembedded-(core)
+
+Then, do this steps:
+1. Clone this repository to your layer folder (stuff folder).
+2. Add this layer to your conf/bblayers.conf in your build directory.
+
