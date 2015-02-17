@@ -1,0 +1,10 @@
+[Unit]
+Description=Start Qt4 Embedded demo application
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/QtAutomotiveClusterDemo -qws
+Environment="QWS_DISPLAY=LinuxFb:/dev/fb:genericcolors" "QWS_KEYBOARD=USB:/dev/input/event-keyboard" "QWS_MOUSE_PROTO=LinuxInput:/dev/input/touchscreen0"
+
+[Install]
+WantedBy=graphical.target

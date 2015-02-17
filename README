@@ -1,12 +1,27 @@
+OpenEmbedded/Yocto demo layer with Qt Automotive Cluster demo
+=============================================================
+
 This is a demo layer how to extend the Toradex BSP layer to create an
 altered image. This demo uses its own layer since several additional
 software packages and an altered kernel is required.
 
-This layer requires a working Toradex BSP setup (with meta-toradex),
-see
+This layer depends on:
+
+URI: git://git.toradex.com/meta-toradex.git
+branch: V2.3
+revision: HEAD
+
+
+See the Toradex BSP setup (with meta-toradex), how to set-up an
+OpenEmbedded build environment:
 http://developer.toradex.com/software-resources/arm-family/linux/board-support-package/openembedded-(core)
 
 Then, do this steps:
 1. Clone this repository to your layer folder (stuff folder).
 2. Add this layer to your conf/bblayers.conf in your build directory.
-
+3. Add the application to IMAGE_INSTALL, e.g.
+   IMAGE_INSTALL_append = "qt-automotive-cluster-demo"
+4. To enable autostart, make sure the graphical target is selected by default by using
+   SYSTEMD_DEFAULT_TARGET = "graphical.target"
+5. Build the image, e.g.
+   build $ bitbake console-trdx-image
