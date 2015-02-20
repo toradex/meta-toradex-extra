@@ -5,7 +5,7 @@ SRC_URI_append = " \
 	git://github.com/toradex/QtAutomotiveClusterDemo.git;branch=embedded-world-2015 \
 "
 
-SRCREV = "22c5fc5656ce7b835db163e30586ce35ef2009ce"
+SRCREV = "ed61ba9101302be288a013f221da7513e3ce84ab"
 
 RDEPENDS_${PN}_append = " \
         libmcc \
