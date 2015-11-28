@@ -1,0 +1,156 @@
+diff --git a/include/configs/colibri_vf.h b/include/configs/colibri_vf.h
+index b870812..5d12a33 100644
+--- a/include/configs/colibri_vf.h
++++ b/include/configs/colibri_vf.h
+@@ -31,7 +31,6 @@
+ #define CONFIG_SKIP_LOWLEVEL_INIT
+ 
+ #define CONFIG_CMD_BMODE
+-#define CONFIG_CMD_FUSE
+ #ifdef CONFIG_CMD_FUSE
+ #define CONFIG_MXC_OCOTP
+ #endif
+@@ -40,7 +39,6 @@
+ 
+ #ifdef CONFIG_FSL_DCU_FB
+ #define CONFIG_VIDEO
+-#define CONFIG_CMD_BMP
+ #define CONFIG_CFB_CONSOLE
+ #define CONFIG_VGA_AS_SINGLE_DEVICE
+ #define CONFIG_SPLASH_SCREEN_ALIGN
+@@ -109,8 +107,6 @@
+ #define CONFIG_CMD_MMC
+ #define CONFIG_GENERIC_MMC
+ #define CONFIG_CMD_FAT
+-#define CONFIG_CMD_EXT3
+-#define CONFIG_CMD_EXT4
+ #define CONFIG_DOS_PARTITION
+ 
+ #define CONFIG_RBTREE
+@@ -120,26 +116,12 @@
+ #define CONFIG_MTD_UBI_FASTMAP
+ #define CONFIG_CMD_UBIFS	/* increases size by almost 60 KB */
+ 
+-#define CONFIG_CMD_PING
+-#define CONFIG_CMD_DHCP
+-#define CONFIG_CMD_MII
+-#define CONFIG_CMD_NET
+-#define CONFIG_FEC_MXC
+-#define CONFIG_MII
+-#define IMX_FEC_BASE			ENET1_BASE_ADDR
+-#define CONFIG_FEC_XCV_TYPE		RMII
+-#define CONFIG_FEC_MXC_PHYADDR		0
+-#define CONFIG_PHYLIB
+-#define CONFIG_PHY_MICREL
+-#define CONFIG_TFTP_TSIZE
+-#define CONFIG_IP_DEFRAG
+-#define CONFIG_TFTP_BLOCKSIZE		16384
+-
+-#define CONFIG_IPADDR		192.168.10.2
+-#define CONFIG_NETMASK		255.255.255.0
+-#define CONFIG_SERVERIP		192.168.10.1
+-
+-#define CONFIG_BOOTDELAY		1
++/* Boot time improvements */
++#define CONFIG_UBI_SILENCE_MSG
++#define CONFIG_SYS_L2_PL310
++#define CONFIG_SYS_PL310_BASE CA5_L2C_BASE_ADDR
++
++#define CONFIG_BOOTDELAY		0
+ #define CONFIG_ZERO_BOOTDELAY_CHECK
+ #define CONFIG_BOARD_LATE_INIT
+ 
+@@ -158,15 +140,6 @@
+ 	"load mmc 0:2 ${fdt_addr_r} /boot/${soc}-colibri-${fdt_board}.dtb && " \
+ 	"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0" \
+ 
+-#define NFS_BOOTCMD \
+-	"nfsargs=ip=:::::eth0: root=/dev/nfs\0"	\
+-	"nfsboot=run setup; " \
+-	"setenv bootargs ${defargs} ${nfsargs} " \
+-	"${setupargs} ${vidargs}; echo Booting from NFS...;" \
+-	"dhcp ${kernel_addr_r} && "	\
+-	"tftp ${fdt_addr_r} ${soc}-colibri-${fdt_board}.dtb && " \
+-	"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0" \
+-
+ #define UBI_BOOTCMD	\
+ 	"ubiargs=ubi.mtd=ubi root=ubi0:rootfs rootfstype=ubifs " \
+ 	"ubi.fm_autoconvert=1\0" \
+@@ -180,12 +153,9 @@
+ 
+ #define CONFIG_BOOTCOMMAND "run ubiboot; run sdboot; run nfsboot"
+ 
+-#define DFU_ALT_NAND_INFO	"vf-bcb part 0,1;u-boot part 0,2;ubi part 0,4"
+-
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	"console=ttyLP0\0" \
+ 	"defargs=\0" \
+-	"dfu_alt_info=" DFU_ALT_NAND_INFO "\0" \
+ 	"fdt_addr_r=0x84000000\0" \
+ 	"fdt_board=eval-v3\0" \
+ 	"fdt_file=${soc}-colibri-${fdt_board}.dtb\0" \
+@@ -193,7 +163,6 @@
+ 	"kernel_addr_r=0x82000000\0" \
+ 	"kernel_file=zImage\0" \
+ 	"mtdparts=" MTDPARTS_DEFAULT "\0" \
+-	NFS_BOOTCMD \
+ 	SD_BOOTCMD \
+ 	"setethupdate=if env exists ethaddr; then; else setenv ethaddr " \
+ 		"00:14:2d:00:00:00; fi; tftpboot ${loadaddr} " \
+@@ -213,7 +182,6 @@
+ 	"video-mode=dcufb:640x480-16@60,monitor=lcd\0"
+ 
+ /* Miscellaneous configurable options */
+-#define CONFIG_SYS_LONGHELP		/* undef to save memory */
+ #define CONFIG_SYS_HUSH_PARSER		/* use "hush" command parser */
+ #define CONFIG_SYS_PROMPT_HUSH_PS2	"> "
+ #define CONFIG_SYS_PROMPT		"Colibri VFxx # "
+@@ -224,10 +192,6 @@
+ #define CONFIG_SYS_MAXARGS		16	/* max number of command args */
+ #define CONFIG_SYS_BARGSIZE		CONFIG_SYS_CBSIZE
+ 
+-#define CONFIG_CMD_MEMTEST
+-#define CONFIG_SYS_MEMTEST_START	0x80010000
+-#define CONFIG_SYS_MEMTEST_END		0x87C00000
+-
+ #define CONFIG_SYS_LOAD_ADDR		CONFIG_LOADADDR
+ #define CONFIG_SYS_HZ			1000
+ #define CONFIG_CMDLINE_EDITING
+@@ -276,9 +240,7 @@
+ #define CONFIG_SUPPORT_RAW_INITRD
+ #define CONFIG_SYS_BOOT_RAMDISK_HIGH
+ 
+-#define CONFIG_CMD_M4BOOT
+ #define CONFIG_CMD_CACHE
+-#define CONFIG_FIT
+ 
+ #define CONFIG_SYS_NO_FLASH
+ 
+@@ -291,27 +253,8 @@
+ #define CONFIG_USB_MAX_CONTROLLER_COUNT 2
+ #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
+ 
+-/* USB Client Support */
+-#define CONFIG_USB_GADGET
+-#define CONFIG_CI_UDC
+-#define CONFIG_USB_GADGET_DUALSPEED
+-#define CONFIG_USB_GADGET_VBUS_DRAW	2
+-#define CONFIG_G_DNL_MANUFACTURER	"Toradex"
+-#define CONFIG_G_DNL_VENDOR_NUM		0x1b67
+-#define CONFIG_G_DNL_PRODUCT_NUM	0xffff /* Fallback, set using fixup */
+-
+-/* USB DFU */
+-#define CONFIG_USBDOWNLOAD_GADGET
+-#define CONFIG_CMD_DFU
+-#define CONFIG_DFU_FUNCTION
+-#define CONFIG_DFU_NAND
+-#define CONFIG_DFU_MMC
+-#define CONFIG_SYS_DFU_DATA_BUF_SIZE (1024*1024)
+-
+ /* USB Storage */
+ #define CONFIG_USB_STORAGE
+-#define CONFIG_USB_GADGET_MASS_STORAGE
+-#define CONFIG_CMD_USB_MASS_STORAGE
+ 
+ /* Enable SPI support */
+ #ifdef CONFIG_OF_CONTROL
