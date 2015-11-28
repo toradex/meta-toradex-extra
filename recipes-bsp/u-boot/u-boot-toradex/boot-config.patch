@@ -12,7 +12,7 @@ index 5d12a33..18c4234 100644
  #define CONFIG_EXTRA_ENV_SETTINGS \
  	"console=ttyLP0\0" \
 -	"defargs=\0" \
-+	"defargs=quiet\0" \
++	"defargs=quiet init=/init\0" \
  	"fdt_addr_r=0x84000000\0" \
  	"fdt_board=eval-v3\0" \
  	"fdt_file=${soc}-colibri-${fdt_board}.dtb\0" \
