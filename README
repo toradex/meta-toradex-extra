@@ -1,0 +1,54 @@
+Toradex demo OpenEmbedded/Yocto layer
+=====================================
+
+This layer provides recipes and packagegroups used in Toradex demos.
+
+This layer depends on:
+
+URI: git://git.openembedded.org/openembedded-core
+branch: fido
+revision: HEAD
+
+URI: git://git.openembedded.org/meta-openembedded
+branch: fido
+revision: HEAD
+
+URI: git://git.yoctoproject.org/meta-fsl-arm
+branch: fido
+revision: HEAD
+
+URI: git://git.yoctoproject.org/meta-fsl-arm-extra
+branch: fido
+revision: HEAD
+
+URI: git://git.yoctoproject.org/meta-fsl-arm-extra
+branch: fido
+revision: HEAD
+
+URI: https://git.yoctoproject.org/git/poky
+branch: fido
+revision: HEAD
+
+
+Contributing
+------------
+
+This layer is maintained by Toradex.
+
+When creating a patch of the last commit, use
+
+    git format-patch -s --subject-prefix='meta-toradex-extra][<branch>][PATCH' -1
+
+To send it to the community, use
+
+    git send-email --to yocto-patches@toradex.com <generated patch>
+
+
+License
+-------
+
+All metadata is MIT licensed unless otherwise stated. Source code and
+binaries included in tree for individual recipes is under the LICENSE
+stated in each recipe (.bb file) unless otherwise stated.
+
+This README document is Copyright (C) 2015 Toradex AG.
